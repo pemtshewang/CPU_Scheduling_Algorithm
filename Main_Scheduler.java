@@ -1,25 +1,59 @@
+/**
+ REQUEST:
+ "Every Expert was Once A Beginner"-Torvalds
+ Since Trying is Good, Do Bear with my Documentation
+ The codes too long, so please spare sometime to read my code
+ I really expect any comments and suggestions that would improve my coding skills.
+ Find out any faults and help me debug my code.
+ Feel free to contact me if you do not understand my codes and implementations.
+ **/
+/**
+   Author: 02200159
+   Pem Tshewang
+   Copyright
+    Diclaimer:
+    All the code errors are on my own and shouldn't tarnish the reputation of esteemed tutor or relevant people.
+ **/
+
 import java.util.*;
 
-public class Main_Scheduler {
-
+public class twoIT_02200159 {
 
     public static int input() {
+        /**
+         This function is for menu driven option and it asks for the number available in the option!
+         The function is in connection with preceding function called preceding function called recieve_data()
+         where it asks the number from the users and return the integer to calling function.
+         **/
         System.out.printf("\nPick the available numbering>>");
         Scanner get = new Scanner(System.in);
         return get.nextInt();
     }
 
     public static boolean confirm(int option) {
+        /**
+         This function basically serve as a boolean function and confirms the user if the choice they
+         did select was really the algorithm they wants to go for.
+         The function returns boolean values true and false, if the function returns false it again prompts
+         the user to pick the right one which really offers the advantage to the user's interfaces and its
+         compatibility.
+         **/
         Scanner get = new Scanner(System.in);
         HashMap<Integer, String> opt = new HashMap<>();
         opt.put(1, "First Come First Serve");
         opt.put(2, "Shortest Job First");
         opt.put(3, "Priority");
         opt.put(4, "Round Robin");
+        if(option > 4)
+        {
+            System.out.println("Please Choose the Available choice!");
+            ask();
+        }
         System.out.println("You have selected " + opt.get(option) + " as Scheduling algorithm for the problem");
         System.out.print("Confirm[Y]es/[N]o>>>");
         String YN = get.next();
-        if (YN.equalsIgnoreCase("Y")) {
+        if (YN.equalsIgnoreCase("Y")) { // the user can either tap capital or small letter,
+            //But the program ignores the case sensitivity
             return true;
         } else {
             return false;
@@ -27,6 +61,12 @@ public class Main_Scheduler {
     }
 
     public static int ask() {
+        /**
+         This is the driver function for asking the users for their choice and all other functions
+         that is related with the prompting users for input descends from this function.
+         It returns the labeling number of the options available and laters call other function associated with
+         it.
+         **/
         int option = input();
         boolean conf = confirm(option);
         if (!conf) {
@@ -36,6 +76,16 @@ public class Main_Scheduler {
     }
 
     public static ArrayList<ArrayList<Integer>> recieve_data() {
+        /**This function serve the purpose for the first two algorithms namely FCFS and SFJ.
+         Since the two algorithms doesn't involve the enquiry extra data like priority, the function was
+         made same for the two algorithms.
+         The function asks the users to input the count of process,their arrival time and burst time.
+         The function packs the each input and their respective values into an arraylist.
+         Then its sends the arraylist to the function that solves the specific algorithm problems.
+         ArrayList<ArrayList<Integer>> means = integerarray[][] (two dimensional integer array)
+         where each array holds the values of one specific purposes.
+         I prefer arraylist due to its dynamic control characteristics and object-oriented methods.
+         **/
         Scanner get = new Scanner(System.in);
         ArrayList<ArrayList<Integer>> values = new ArrayList<>();
         System.out.println("Please Fill the necessary values when prompted");
@@ -44,7 +94,7 @@ public class Main_Scheduler {
         System.out.println("\nPlease values when prompted!!");
         for (int i = 0; i < proc_count; ++i) {
             ArrayList<Integer> arr = new ArrayList<>();
-            arr.add(i + 1);
+            arr.add(i + 1); //adding the value to the arraylist and the value is identification for the process count
             System.out.printf("\nPlease Enter the Arrival time for process[%d]: ", i + 1);
             arr.add(get.nextInt());
             System.out.printf("\nPlease Enter the Burst time for process[%d]: ", i + 1);
@@ -55,6 +105,13 @@ public class Main_Scheduler {
     }
 
     public static ArrayList<ArrayList<Integer>> recieve_data_with_priority() {
+        /**
+         This function serves the purpose for priority scheduling algorithm namely: Non-Preemptive
+         It prompts the user for all the necessary inputs to work with priority algorithm and prompts for the
+         priority for all the data.
+         The priority should be given to the big number --- small->big -- priority increases
+         It returns the array[][] to the calling function()
+         **/
         Scanner get = new Scanner(System.in);
         ArrayList<ArrayList<Integer>> values = new ArrayList<>();
         System.out.println("Please Fill the necessary values when prompted");
@@ -76,23 +133,39 @@ public class Main_Scheduler {
     }
 
     public static void BubbleSort(ArrayList<ArrayList<Integer>> arr) {
+        /**
+         This function is explicitly made for all algorithms, since all algorithms
+         involves the ordering of the arrival time from the least to greatest.
+         The function is necessary to sort out the first arrival time and sorting the function
+         works for the first two algorithms fcfs and sfj since they rely upon the arrival time.
+         **/
         for (int i = 0; i < arr.size(); ++i) {
             for (int j = 0; j < arr.size() - 1; ++j) {
                 if (arr.get(j).get(0) > arr.get(j + 1).get(0)) {
-                    ArrayList<Integer> temp = arr.get(j);
-                    arr.set(j, arr.get(j + 1));
+                    ArrayList<Integer> temp = arr.get(j);//assigning to the temporary var
+                    arr.set(j, arr.get(j + 1));// it is same as indexing the arr or take the consideration
+                    //arr[j]=arr[j+1]
                     arr.set(j + 1, temp);
                 }
             }
         }
+        //This function doesn't return any of the values but make changes to the local variable in the given scope.
     }
 
     public static void print_Answer(ArrayList<ArrayList<Integer>> values) {
-        int start_time = values.get(0).get(1);
+        /**
+         This function is specifically designed for the FCFS and SFJ.
+         It solves for turnaround time and bursttime.
+         also finds the avg turnaround time and burst time for all process.
+         Later it prints the answer in tabular form
+         **/
+        int start_time = values.get(0).get(1);//if it too much for you, it refers to values[0][1]
         //Calculating Finish time for each process
         int i = 0;
-        while (i <= values.size() - 1) {
-            if (values.get(i).get(1) <= start_time) {
+        while (i <= values.size() - 1) {//it proceeds till the size of the given process
+            if (values.get(i).get(1) <= start_time) {//it checks if it is the first arrival time along all the process
+                //It goes for this condition first and calculates the start time for the specific purpose and initializes
+                //them to the given variable
                 start_time += values.get(i).get(2);
                 values.get(i).add(start_time);
                 i++;
@@ -102,6 +175,7 @@ public class Main_Scheduler {
         }
         //Calculating Turnaround time for each process
         int avg_turnaround = 0;
+        //I do assume calculating the average is known concept for you, so I didn't documented here.
         for (ArrayList<Integer> list : values) {
             avg_turnaround = avg_turnaround + (list.get(3) - list.get(1));
             list.add(list.get(3) - list.get(1));
@@ -112,6 +186,8 @@ public class Main_Scheduler {
             avg_waiting = avg_waiting + (list.get(4) - list.get(2));
             list.add(list.get(4) - list.get(2));
         }
+        //sort the arrival time of all the process and proceed for the next step, the sorting
+        //here is for the arranging the process in their order and later prints it in the ascending order.
         BubbleSort(values);
         System.out.printf("\n%15s %15s %15s %15s %18s %17s", "Process", "ArrivalTime", "BurstTime", "FinishTime", "Turnaroundtime", "Waiting Time");
         for (ArrayList<Integer> list : values) {
@@ -124,6 +200,11 @@ public class Main_Scheduler {
     }
 
     public static void FCFS() {
+        /**
+         This function is designed to solve the algorithm of the First Come First Serve.
+         Idea is to just sort the arrival time according to their arrival
+         Assuming it as queue and using the array list as queue.
+         **/
         ArrayList<ArrayList<Integer>> values = recieve_data();
 
         //Sorting the value of array based on Arrival time using Bubble Sort
@@ -137,24 +218,31 @@ public class Main_Scheduler {
                 }
             }
         }
-        print_Answer(values);
+        print_Answer(values);//Finds all the requisites as mentioned in the documentation of this function.
     }
 
     public static void sort_BurstTime(ArrayList<ArrayList<Integer>> values, int start_time) {
-        //Inline with SJF function
-        //Bubble sorting based on burst time except For the first start process
+        /**
+        Inline with SJF function
+         This function solves the constraint of the second algorithm
+         whereby it depends on the burst time after getting the first arrival time.
+         It sorts the burst time using the sorting algorithm: Bubble sort
+        **/
+        //Bubble sorting the burst time in order of least to greatest
         for (int i = 0; i < values.size(); ++i) {
             for (int j = 0; j < values.size() - 1; ++j) {
                 if (values.get(j).get(1) == start_time)//For the first Arrival time
                 {
                     if (Objects.equals(values.get(j).get(1), values.get(j + 1).get(1))) {
-                        if (values.get(j).get(2) > values.get(j + 1).get(2)) {
+                        if (values.get(j).get(2) > values.get(j + 1).get(2)) { //values[j][2]
+                            //since the burst time is located at the array index 2, it refers to 2
                             ArrayList<Integer> temp = values.get(j);
                             values.set(j, values.get(j + 1));
                             values.set(j + 1, temp);
                         }
                     }
                 } else {
+                    //It doesn't imply for the process that doesn't have the first arrival time
                     if (values.get(j).get(2) > values.get(j + 1).get(2)) { //Sorting rest with Burst time
                         ArrayList<Integer> temp = values.get(j);
                         values.set(j, values.get(j + 1));
@@ -166,6 +254,10 @@ public class Main_Scheduler {
     }
 
     public static void SJF() {
+        /**
+         This function serves the purpose of Shortest Job First Scheduling Algorithm
+         It solves the problem after recieving all the necessary values.
+         **/
         ArrayList<ArrayList<Integer>> values = recieve_data();
         //Bubble sort the values based on values and Don't apply the sorting to the first arrival time value.
         for (int i = 0; i < values.size(); ++i) {
@@ -182,6 +274,11 @@ public class Main_Scheduler {
     }
 
     public static void print_Answer_for_Priority(ArrayList<ArrayList<Integer>> values) {
+        /**
+         The priority algorithm required extra function to print the values since it contains the priority for
+         each values.
+         The function takes the parameter where two dimensional array is accepted from the user.
+         **/
         //let's calculate the turn around time first using formula
         //Finish Time-Arrival time or values[i][4]-values[i][1]
         float avg_turnaround = 0f;
@@ -210,7 +307,12 @@ public class Main_Scheduler {
     }
 
     public static void Non_Preemptive(ArrayList<ArrayList<Integer>> values) {
-        ArrayList<Integer> list = new ArrayList<>();
+        /**
+         This function serves the purpose of the Non_Preemptive scheduling algorithm.
+         I assumed that concepts are understandable for you.
+         So implementation is also bit tricky, but it seems easy after few trials.
+         **/
+        //ArrayList<Integer> list = new ArrayList<>();
         //First lets sort the values that has first arrival time based on its priority
         int first_arrival_time = values.get(0).get(1);
         for (int i = 0; i < values.size() - 1; ++i) {
@@ -242,13 +344,17 @@ public class Main_Scheduler {
                     }
                 }
             }
-            CT = CT + values.get(i).get(2);
+            CT = CT + values.get(i).get(2);// Calculating the finishing time and adding to the array
             values.get(i).add(CT);
         }
         print_Answer_for_Priority(values);
     }
 
     public static void Priority() {
+        /**
+         This function serves the purpose of the Priority algorithm-non preemptive
+         It is connected with the previous function and it serves the driver code for the priority.
+         **/
         ArrayList<ArrayList<Integer>> values = recieve_data_with_priority();
         //Let's first solve by sorting the arrival time
         for (int i = 0; i < values.size(); ++i) {
@@ -264,6 +370,10 @@ public class Main_Scheduler {
     }
 
     public static void Round_Robin() {
+        /**
+         This function serves the purpose of the algorithm round-robin
+         It doesnot have any sub functions and solves + prints all the necessary answer here in tabular form.
+         **/
         ArrayList<ArrayList<Integer>> values = recieve_data();
         //copying item
         ArrayList<ArrayList<Integer>> Ready_queue = new ArrayList<>();
@@ -282,7 +392,9 @@ public class Main_Scheduler {
         for (ArrayList<Integer> item : values) {
             burst_time.add(item.get(2));
         }
+        //keeping the duplication of the orignal array named replica, in order to print the old values inputted by the users
         ArrayList<ArrayList<Integer>> replica = new ArrayList<>(values);
+        //Necessary to provide time quantum for this algorithm
         System.out.print("***!Please Provide Time Quantum!***: ");
         Scanner get = new Scanner(System.in);
         int tq = get.nextInt();
@@ -290,6 +402,8 @@ public class Main_Scheduler {
         int gantt_value = 0;
         int start_value = values.get(0).get(1);
         int index = 0;
+        //solve all the process till the burst time hasn't reduced to 0
+        //It keeps the track of the process that has reduced its burst time to : variable used=count
         while (count > 0) {
             if (gantt_value < 1) {
                 for (int i = 0; i < values.size(); ++i) {
@@ -382,6 +496,7 @@ public class Main_Scheduler {
             i++;
         }
         i=0;
+        BubbleSort(replica);
         for (ArrayList<Integer> item : replica) {
             System.out.printf("\n%15s %15s %15s %15s %18s %17s", item.get(0), item.get(1), burst_time.get(i), item.get(3), item.get(4), item.get(5));
             i++;
@@ -392,9 +507,7 @@ public class Main_Scheduler {
         System.out.println("\nThank You for Using the Service!!!:)");
     }
 
-    public static void main(String[] args) {
-
-        Scanner get = new Scanner(System.in);
+    public static void main(String[] args) { //The main driver code where execution starts
         while (true) {
 
             Date now = new Date();
@@ -415,7 +528,7 @@ public class Main_Scheduler {
                         SJF();
                         break;
                     case 3:
-                        System.out.println("\nYou have selected Priority(Non Preemptive) as the algorithm to solve the problem!");
+                        System.out.println("\nYou have selected Priority(Non Preemptive) as the algorithm to solve the problem!\nThe priority should be given to greatest number! ascending");
                         Priority();
                         break;
                     case 4:
@@ -428,7 +541,6 @@ public class Main_Scheduler {
             } catch (NoSuchElementException e) {
                 System.out.println("\nSuccessful Exit!");
                 System.exit(0);
-
             }
         }
     }
