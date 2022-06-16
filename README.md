@@ -1,7 +1,7 @@
 # CPU Scheduler Algorithm
 
 > This task was assigned as assignment by our CTE203 tutor.
-> The algorithm and logic implementations are on my own and it should not tarnish the reputation of my tutor, since it is not so accurate implementations 
+> The algorithm and logic implementations are on my own and it should not tarnish the reputation of my tutor, since it is not so accurately implementated 
 
 ***Note*** = __Custom inputs for all the algorithms are tested and the output is expected__
 
